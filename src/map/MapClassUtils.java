@@ -48,7 +48,7 @@ public class MapClassUtils {
     }
 
     public void generateNewMap() {
-        int numberOfEntities = (map.getHeight() * map.getWidth()) / 2 - 1;
+        int numberOfEntities = (map.getHeight() * map.getWidth()) / 3 - 1;
 
         generateRandomEntities(numberOfEntities);
     }

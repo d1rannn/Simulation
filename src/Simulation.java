@@ -23,7 +23,7 @@ public class Simulation {
     public Simulation(MapClass map, MapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
-        this.mapClassUtils = new MapClassUtils(map, renderer); // Initialize mapClassUtils
+        this.mapClassUtils = new MapClassUtils(map, renderer);
         this.initActions = new ArrayList<>();
         this.turnActions = new ArrayList<>();
         this.countMoves = 0;
@@ -51,7 +51,7 @@ public class Simulation {
         countMoves++;
     }
 
-    public void startSimulation() {
+    public void start() {
         createActions();
 
         // Perform all initial actions

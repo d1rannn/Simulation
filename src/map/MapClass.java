@@ -50,6 +50,10 @@ public class MapClass {
         cells.put(cell, entity);
     }
 
+    public boolean isEmpty(Cell cell) {
+        return !cells.containsKey(cell);
+    }
+
     public List<Cell> getAdjacentCells(Cell cell) {
         List<Cell> adjacentCells = new ArrayList<>();
         int x = cell.getX();
