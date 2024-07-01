@@ -33,20 +33,21 @@ abstract public class Creature extends Entity {
 
     abstract public void interactWithEntity(Entity entity, WorldMap map, Cell currentCell, Cell targetCell);
 
-    public void makeMove(WorldMap map, Cell currentCell) {
+    public Cell makeMove(WorldMap map, Cell currentCell) {
         List<Cell> adjacentCells = map.getAdjacentCells(currentCell);
 
         for (Cell targetCell : adjacentCells) {
             Entity entity = map.getEntity(targetCell);
             if (isTarget(entity)) {
                 interactWithEntity(entity, map, currentCell, targetCell);
-                return;
+                return targetCell;
             }
         }
 
-        // Move in a random direction if no creature found
+        // Move in a random direction if no target found
         Cell newCell = adjacentCells.get(random.nextInt(adjacentCells.size()));
         map.updateEntity(currentCell, null);
         map.updateEntity(newCell, this);
+        return newCell;
     }
 }
