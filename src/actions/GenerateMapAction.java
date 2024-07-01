@@ -1,17 +1,17 @@
 package actions;
 
-import map.MapClass;
-import map.MapClassUtils;
+import map.WorldMap;
+import map.WorldMapFactory;
 
 public class GenerateMapAction extends Action {
-    private final MapClassUtils mapClassUtils;
+    private final WorldMapFactory worldMapFactory;
 
-    public GenerateMapAction(MapClassUtils mapClassUtils) {
-        this.mapClassUtils = mapClassUtils;
+    public GenerateMapAction(WorldMapFactory worldMapFactory) {
+        this.worldMapFactory = worldMapFactory;
     }
 
     @Override
-    public void perform(MapClass map) {
-        mapClassUtils.generateNewMap();
+    public void perform(WorldMap map) {
+        worldMapFactory.fillEntities();
     }
 }

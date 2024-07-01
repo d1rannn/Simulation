@@ -1,11 +1,11 @@
-import map.MapClass;
-import map.MapRenderer;
+import map.WorldMap;
+import map.WorldMapRenderer;
 
 public class Main {
     public static void main(String[] args) {
         final Simulation simulation = new Simulation(
-                new MapClass(10, 10),
-                new MapRenderer()
+                new WorldMap(10, 10),
+                new WorldMapRenderer()
         );
         simulation.start();
     }

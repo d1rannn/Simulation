@@ -19,9 +19,10 @@ public class Cell {
         return y;
     }
 
+    // changed information of method
     @Override
     public String toString() {
-        return "Coordinates{" +
+        return "Cells{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

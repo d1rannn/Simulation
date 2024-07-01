@@ -1,7 +1,7 @@
 package actions;
 
-import map.MapClass;
+import map.WorldMap;
 
 abstract public class Action {
-    abstract public void perform(MapClass map);
+    abstract public void perform(WorldMap map);
 }

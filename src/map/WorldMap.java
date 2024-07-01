@@ -2,24 +2,23 @@ package map;
 
 import entity.Entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class MapClass {
-    private final HashMap<Cell, Entity> cells;
+// changed name of class
+public class WorldMap {
+    // used interface of class Map
+    private final Map<Cell, Entity> cells;
     final int height;
     final int width;
 
-    public MapClass(int height, int width) {
+    public WorldMap(int height, int width) {
         this.height = height;
         this.width = width;
         this.cells = new HashMap<>();
     }
 
-    public Set<Cell> getCells() {
-        return cells.keySet();
+    public Map<Cell, Entity> getCells() {
+        return cells;
     }
 
     public Entity getEntity(Cell cell) {
@@ -34,7 +33,8 @@ public class MapClass {
         return width;
     }
 
-    public void add(Cell cell, Entity entity) {
+    // left only one method
+    public void updateEntity(Cell cell, Entity entity) {
         cells.put(cell, entity);
     }
 
@@ -44,14 +44,6 @@ public class MapClass {
 
     public boolean contains(Cell cell) {
         return cells.containsKey(cell);
-    }
-
-    public void updateEntity(Cell cell, Entity entity) {
-        cells.put(cell, entity);
-    }
-
-    public boolean isEmpty(Cell cell) {
-        return !cells.containsKey(cell);
     }
 
     public List<Cell> getAdjacentCells(Cell cell) {

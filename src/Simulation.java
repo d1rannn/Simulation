@@ -5,25 +5,26 @@ import actions.RenderMapAction;
 import creature.Creature;
 import entity.Entity;
 import map.Cell;
-import map.MapClass;
-import map.MapClassUtils;
-import map.MapRenderer;
+import map.WorldMap;
+import map.WorldMapFactory;
+import map.WorldMapRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Simulation {
-    private final MapClass map;
-    private final MapClassUtils mapClassUtils;
+    private final WorldMap map;
+    private final WorldMapFactory worldMapFactory;
+    private final WorldMapRenderer renderer;
     private int countMoves;
-    private final MapRenderer renderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
 
-    public Simulation(MapClass map, MapRenderer renderer) {
+    public Simulation(WorldMap map, WorldMapRenderer renderer) {
         this.map = map;
         this.renderer = renderer;
-        this.mapClassUtils = new MapClassUtils(map, renderer);
+        this.worldMapFactory = new WorldMapFactory(map);
         this.initActions = new ArrayList<>();
         this.turnActions = new ArrayList<>();
         this.countMoves = 0;
@@ -31,36 +32,50 @@ public class Simulation {
 
     public void nextTurn() {
         System.out.println("Turn: " + countMoves);
-        // Perform all turn actions
+
+        performTurnActions();
+        moveCreatures(map);
+        renderMap();
+        incrementTurnCount();
+    }
+
+    private void performTurnActions() {
         for (Action action : turnActions) {
             action.perform(map);
         }
+    }
 
-        // Reset movement state for all creatures after turn
-        for (Cell cell : map.getCells()) {
+    private void performInitActions() {
+        for (Action action : initActions) {
+            action.perform(map);
+        }
+    }
+
+    private void moveCreatures(WorldMap map) {
+        Set<Cell> originalCells = map.getCells().keySet();
+        List<Cell> cells = new ArrayList<>(originalCells); // Copy of Cells
+
+        for (Cell cell : cells) {
             Entity entity = map.getEntity(cell);
             if (entity instanceof Creature) {
-                ((Creature) entity).setAlreadyMove(false);
+                ((Creature) entity).makeMove(map, cell);
             }
         }
+    }
 
-        // Render the map after actions are performed
+    private void renderMap() {
         renderer.render(map);
+    }
 
-        // Increment the count of moves
+    private void incrementTurnCount() {
         countMoves++;
     }
 
     public void start() {
+
         createActions();
-
-        // Perform all initial actions
-        for (Action action : initActions) {
-            action.perform(map);
-        }
-
-        // Render the initial state of the map
-        renderer.render(map);
+        performInitActions();
+        renderMap();
 
         // Start the simulation by executing turns
         while (true) {
@@ -75,7 +90,7 @@ public class Simulation {
     }
 
     public void createActions() {
-        initActions.add(new GenerateMapAction(mapClassUtils));
+        initActions.add(new GenerateMapAction(worldMapFactory));
         initActions.add(new RenderMapAction(renderer));
 
         turnActions.add(new MoveCreaturesAction());

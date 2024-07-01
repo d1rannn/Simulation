@@ -9,18 +9,18 @@ import entity.Tree;
 
 import java.util.Random;
 
-public class MapClassUtils {
-    private final MapClass map;
+// changed name of class
+public class WorldMapFactory {
+    private final WorldMap map;
     private final Random random;
-    private final MapRenderer renderer;
 
-    public MapClassUtils(MapClass map, MapRenderer renderer) {
+    public WorldMapFactory(WorldMap map) {
         this.map = map;
-        this.renderer = renderer;
         this.random = new Random();
     }
 
-    public void generateRandomEntities(int numberOfEntities) {
+    // changed name of method
+    public void insertRandomEntities(int numberOfEntities) {
         for (int i = 0; i < numberOfEntities; i++) {
             int x, y;
             Cell cell;
@@ -31,7 +31,7 @@ public class MapClassUtils {
             } while (map.contains(cell));
 
             Entity entity = createRandomEntity();
-            map.add(cell, entity);
+            map.updateEntity(cell, entity);
         }
     }
 
@@ -42,14 +42,16 @@ public class MapClassUtils {
             case 1 -> new Rock();
             case 2 -> new Tree();
             case 3 -> new Herbivore(1, 6);
-            case 4 -> new Predator(1, 10, 4);
-            default -> null;
+            case 4 -> new Predator(1, 10, 3);
+            // removed null value
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
 
-    public void generateNewMap() {
+    // changed name of method
+    public void fillEntities() {
         int numberOfEntities = (map.getHeight() * map.getWidth()) / 3 - 1;
 
-        generateRandomEntities(numberOfEntities);
+        insertRandomEntities(numberOfEntities);
     }
 }

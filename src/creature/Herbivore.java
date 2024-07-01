@@ -3,13 +3,12 @@ package creature;
 import entity.Entity;
 import entity.Grass;
 import map.Cell;
-import map.MapClass;
+import map.WorldMap;
 
 public class Herbivore extends Creature {
 
     public Herbivore(int speed, int hp) {
         super(speed, hp);
-        super.type = "H";
     }
 
     @Override
@@ -18,9 +17,8 @@ public class Herbivore extends Creature {
     }
 
     @Override
-    public void interactWithEntity(Entity entity, MapClass map, Cell currentCell, Cell targetCell) {
+    public void interactWithEntity(Entity entity, WorldMap map, Cell currentCell, Cell targetCell) {
         map.delete(targetCell);
-        map.add(targetCell, this);
+        map.updateEntity(targetCell, this);
     }
-
 }
