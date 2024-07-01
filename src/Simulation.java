@@ -27,7 +27,7 @@ public class Simulation {
         this.worldMapFactory = new WorldMapFactory(map);
         this.initActions = new ArrayList<>();
         this.turnActions = new ArrayList<>();
-        this.countMoves = 0;
+        this.countMoves = 1;
     }
 
     public void nextTurn() {
@@ -75,7 +75,6 @@ public class Simulation {
 
         createActions();
         performInitActions();
-        renderMap();
 
         // Start the simulation by executing turns
         while (true) {
