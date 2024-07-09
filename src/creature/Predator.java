@@ -21,13 +21,6 @@ public class Predator extends Creature {
     public void interactWithEntity(Entity entity, WorldMap map, Cell currentCell, Cell targetCell) {
         Herbivore herbivore = (Herbivore) entity;
         herbivore.setHp(herbivore.getHp() - attackPower);
-        if (herbivore.getHp() <= 0) {
-            map.delete(targetCell);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "P";
+        if (herbivore.getHp() <= 0) map.moveEntity(this, currentCell, targetCell);
     }
 }

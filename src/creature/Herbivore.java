@@ -16,9 +16,11 @@ public class Herbivore extends Creature {
         return entity instanceof Grass;
     }
 
+
     @Override
     public void interactWithEntity(Entity entity, WorldMap map, Cell currentCell, Cell targetCell) {
-        map.delete(targetCell);
-        map.updateEntity(targetCell, this);
+        int currentHp = this.getHp();
+        this.setHp(currentHp + 2);
+        map.moveEntity(this, currentCell, targetCell);
     }
 }

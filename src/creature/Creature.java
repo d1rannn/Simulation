@@ -1,6 +1,7 @@
 package creature;
 
 import entity.Entity;
+import findpath.BFS;
 import map.Cell;
 import map.WorldMap;
 
@@ -10,7 +11,6 @@ import java.util.Random;
 abstract public class Creature extends Entity {
     private final int speed;
     private int hp;
-    private final Random random = new Random();
 
     public Creature(int speed, int hp) {
         this.speed = speed;
@@ -33,21 +33,18 @@ abstract public class Creature extends Entity {
 
     abstract public void interactWithEntity(Entity entity, WorldMap map, Cell currentCell, Cell targetCell);
 
-    public Cell makeMove(WorldMap map, Cell currentCell) {
-        List<Cell> adjacentCells = map.getAdjacentCells(currentCell);
+    public void makeMove(WorldMap map, Cell currentCell) {
+        List<Cell> pathToTarget = BFS.findPathToNearestTarget(map, currentCell, this);
 
-        for (Cell targetCell : adjacentCells) {
-            Entity entity = map.getEntity(targetCell);
+        if (!pathToTarget.isEmpty()) {
+            Cell nextCell = pathToTarget.get(1); // Get the next cell in the path (excluding current cell)
+
+            Entity entity = map.getEntity(nextCell);
             if (isTarget(entity)) {
-                interactWithEntity(entity, map, currentCell, targetCell);
-                return targetCell;
+                interactWithEntity(entity, map, currentCell, nextCell);
+            } else {
+                map.moveEntity(this, currentCell, nextCell);
             }
         }
-
-        // Move in a random direction if no target found
-        Cell newCell = adjacentCells.get(random.nextInt(adjacentCells.size()));
-        map.updateEntity(currentCell, null);
-        map.updateEntity(newCell, this);
-        return newCell;
     }
 }

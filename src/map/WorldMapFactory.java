@@ -9,7 +9,6 @@ import entity.Tree;
 
 import java.util.Random;
 
-// changed name of class
 public class WorldMapFactory {
     private final WorldMap map;
     private final Random random;
@@ -19,7 +18,6 @@ public class WorldMapFactory {
         this.random = new Random();
     }
 
-    // changed name of method
     public void insertRandomEntities(int numberOfEntities) {
         for (int i = 0; i < numberOfEntities; i++) {
             int x, y;
@@ -42,13 +40,11 @@ public class WorldMapFactory {
             case 1 -> new Rock();
             case 2 -> new Tree();
             case 3 -> new Herbivore(1, 6);
-            case 4 -> new Predator(1, 10, 3);
-            // removed null value
+            case 4 -> new Predator(1, 10, 2);
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
 
-    // changed name of method
     public void fillEntities() {
         int numberOfEntities = (map.getHeight() * map.getWidth()) / 3 - 1;
 

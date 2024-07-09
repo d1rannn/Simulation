@@ -4,16 +4,14 @@ import entity.Entity;
 
 import java.util.*;
 
-// changed name of class
 public class WorldMap {
-    // used interface of class Map
     private final Map<Cell, Entity> cells;
-    final int height;
     final int width;
+    final int height;
 
-    public WorldMap(int height, int width) {
-        this.height = height;
+    public WorldMap(int width, int height) {
         this.width = width;
+        this.height = height;
         this.cells = new HashMap<>();
     }
 
@@ -25,6 +23,10 @@ public class WorldMap {
         return cells.get(cell);
     }
 
+    public void setEntity(Cell cell, Entity entity) {
+        cells.put(cell, entity);
+    }
+
     public int getHeight() {
         return height;
     }
@@ -33,12 +35,11 @@ public class WorldMap {
         return width;
     }
 
-    // left only one method
     public void updateEntity(Cell cell, Entity entity) {
         cells.put(cell, entity);
     }
 
-    public void delete(Cell cell) {
+    public void removeEntity(Cell cell) {
         cells.remove(cell);
     }
 
@@ -46,23 +47,9 @@ public class WorldMap {
         return cells.containsKey(cell);
     }
 
-    public List<Cell> getAdjacentCells(Cell cell) {
-        List<Cell> adjacentCells = new ArrayList<>();
-        int x = cell.getX();
-        int y = cell.getY();
-
-        // Horizontal and vertical neighbors
-        if (x > 0) adjacentCells.add(new Cell(x - 1, y));
-        if (x < width - 1) adjacentCells.add(new Cell(x + 1, y));
-        if (y > 0) adjacentCells.add(new Cell(x, y - 1));
-        if (y < height - 1) adjacentCells.add(new Cell(x, y + 1));
-
-        // Diagonal neighbors
-        if (x > 0 && y > 0) adjacentCells.add(new Cell(x - 1, y - 1));
-        if (x > 0 && y < height - 1) adjacentCells.add(new Cell(x - 1, y + 1));
-        if (x < width - 1 && y > 0) adjacentCells.add(new Cell(x + 1, y - 1));
-        if (x < width - 1 && y < height - 1) adjacentCells.add(new Cell(x + 1, y + 1));
-
-        return adjacentCells;
+    public void moveEntity(Entity entity, Cell currentCell, Cell targetCell) {
+        removeEntity(currentCell);
+        removeEntity(targetCell);
+        updateEntity(targetCell, entity);
     }
 }

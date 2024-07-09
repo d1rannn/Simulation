@@ -3,8 +3,8 @@ package map;
 import java.util.Objects;
 
 public class Cell {
-    final int x;
-    final int y;
+    private final int x;
+    private final int y;
 
     public Cell(int x, int y) {
         this.x = x;
@@ -19,10 +19,9 @@ public class Cell {
         return y;
     }
 
-    // changed information of method
     @Override
     public String toString() {
-        return "Cells{" +
+        return "Cell{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';

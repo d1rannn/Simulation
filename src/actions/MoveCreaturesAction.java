@@ -11,15 +11,11 @@ public class MoveCreaturesAction extends Action {
 
     @Override
     public void perform(WorldMap map) {
-        Set<Cell> processedCells = new HashSet<>();
-
         for (int i = 0; i < map.getHeight(); i++) {
             for (int j = 0; j < map.getWidth(); j++) {
                 Cell cell = new Cell(i, j);
-                if (!processedCells.contains(cell) && map.getEntity(cell) instanceof Creature creature) {
-                    Cell targetCell = creature.makeMove(map, cell);
-                    processedCells.add(targetCell);
-                    processedCells.add(cell);
+                if (map.getEntity(cell) != null && map.getEntity(cell) instanceof Creature creature) {
+                    creature.makeMove(map, cell);
                 }
             }
         }

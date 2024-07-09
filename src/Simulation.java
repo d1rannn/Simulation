@@ -9,9 +9,7 @@ import map.WorldMap;
 import map.WorldMapFactory;
 import map.WorldMapRenderer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Simulation {
     private final WorldMap map;
@@ -52,10 +50,9 @@ public class Simulation {
     }
 
     private void moveCreatures(WorldMap map) {
-        Set<Cell> originalCells = map.getCells().keySet();
-        List<Cell> cells = new ArrayList<>(originalCells); // Copy of Cells
+        Set<Cell> originalCells = new HashSet<>(map.getCells().keySet());
 
-        for (Cell cell : cells) {
+        for (Cell cell : originalCells) {
             Entity entity = map.getEntity(cell);
             if (entity instanceof Creature) {
                 ((Creature) entity).makeMove(map, cell);
@@ -76,11 +73,9 @@ public class Simulation {
         createActions();
         performInitActions();
 
-        // Start the simulation by executing turns
         while (true) {
             nextTurn();
             try {
-                // Adding a sleep interval to observe the turns, can be adjusted or removed as necessary
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
